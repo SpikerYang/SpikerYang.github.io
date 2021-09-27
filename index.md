@@ -1,3 +1,6 @@
+## 重识Kafka系列
+[重识Kafka_00:序言](https://spikeryang.github.io/2021/09/26/Kafka_Preview.html)
+
 ## Welcome to GitHub Pages
 
 You can use the [editor on GitHub](https://github.com/SpikerYang/SpikerYang.github.io/edit/main/index.md) to maintain and preview the content for your website in Markdown files.
