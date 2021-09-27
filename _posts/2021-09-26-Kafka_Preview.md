@@ -1,9 +1,8 @@
 ---
 layout: post
-title: Blogging Like a Hacker
+title: 重识Kafka-00：序言
 ---
 
-# 重识Kafka-00：序言
 ## WHAT
 这个系列是从 **<Kafka: a Distributed Messaging System for Log Processing>** 这篇经典系统设计论文出发，从Kafka设计者的角度了解Kafka的底层原理和设计思想。  
 你可以把它理解成是读书笔记。
