@@ -1,6 +1,8 @@
+---
 layout: post
 title: "重识Kafka-01:诞生背景"
 permalink: /kafka_01/background/
+---
 
 # 指南
 本篇的内容对应论文的摘要, 1.介绍, 2.相关工作
