@@ -1,5 +1,5 @@
 ## 重识Kafka系列
-[重识Kafka_00:序言](https://spikeryang.github.io/kafka_00/preview/)
+[重识Kafka_00:序言](https://spikeryang.github.io/kafka_00/preview/)  
 [重识Kafka_01:背景](https://spikeryang.github.io/kafka_01/background/)
 ## Welcome to GitHub Pages
 
