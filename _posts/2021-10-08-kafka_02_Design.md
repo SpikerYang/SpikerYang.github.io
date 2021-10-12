@@ -8,6 +8,7 @@ permalink: /kafka_02/design/
 上一篇: [重识Kafka_01:背景](https://spikeryang.github.io/kafka_01/background/)  
 本篇的内容对应论文的3.架构设计
 
+
 # 架构 & 设计
 ## Kafka基础概念
 topic: 某一个类型的消息流, producer发送消息到一个topic  
@@ -32,10 +33,9 @@ producer发送一条消息会发到一个随机或者选定的partition。Kafka�
 - Rebalance: 当一个consumer新启动或者通过watcher感知到别的consumer/broker变化时，会触发rebalance。Rebalance决定了consumer应该消费哪个partition。Rebalance算法对topic下的partition以消费组中订阅了topic的consumer数为mod作了类似hash的操作，把partition分配给每个consumer。之后会把新的信息注册到Zookeeper，并且新起一个线程根据Zookeeper上存储的offset从partition开始pull数据。由于一个消费组内多个consumer接收到watch通知的时间不完全相同，所以有可能会出现rebalance时分配到的partition仍然被别的consumer占用的情况（别的consumer还没有收到watch通知）。这时consumer会释放所有持有的partition，等待一段时间再重新触发rebalance。一般在重试几次后rebalance都会稳定下来。当新消费组被创建后，Zookeeper上没有对应的offset信息，会根据配置从partition可用的最小或者最大offset开始消费。
 
 ## 可靠性保障
-
+- 通常情况下，kafka只保证 at-least-once 传输（最少一次）。Exactly-once传输需要2pc（两阶段提交），这对于linkedin的场景并不是必须的。对于大多数情况下，消息只会发送到每个消费组一次。但是如果consumer进程在崩溃前没有干净的退出（消费了消息但是没有提交offset到Zookeeper），接管这个partition的新consumer会从旧的offset开始消费一些重复消息。如果你的应用很在意重复消费，可以在应用层根据consumer消费返回的offset或者在消息中加入唯一标识实现重复消息过滤逻辑。这比引入2pc更容易实现。
+- Kafka保证一个partition到对应consumer间的消息有序，但是不保证多个partition间的消息有序。为了避免日志污染，Kafka在日志中为每个消息添加了一个CRC（循环冗余校验）。如果broker出现了IO错误，Kafka会运行修复进程删除带有不一致CRC的消息。在消息级别使用CRC也有利于在消息产生或消费后检测网络错误。如果一个broker宕机了，没有消费的消息就不可用了，如果broker底层的存储系统被破坏（机器损坏），任何没有消费的消息就永远丢失了。未来kafka计划支持多broker存储冗余数据来实现内部replica备份。
 
 # 总结
-可以看到，Kafka被设计出来要支持的场景是 **在线场景下实时日志数据的处理** ，这点非常重要，因为Kafka的很多设计都是为了这个场景服务。
-- 可扩展：分布式
-- 日志数据量大：高吞吐
-- 在线实时：低延迟
+再次重温一下，Kafka被设计出来要支持的场景是 **在线场景下实时日志数据的处理** ，因此在kafka的设计上做了trade-off:
+- 牺牲了一些可靠性，一些日志收集场景中不是必须的功能来降低存储和系统的复杂度&提高吞吐率
