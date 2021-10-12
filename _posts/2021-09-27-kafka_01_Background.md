@@ -7,6 +7,7 @@ permalink: /kafka_01/background/
 # 指南
 上一篇: [重识Kafka_00:序言](https://spikeryang.github.io/kafka_00/preview/)  
 本篇的内容对应论文的摘要, 1.介绍, 2.相关工作
+下一篇: [重识Kafka_02:架构设计](https://spikeryang.github.io/kafka_02/design/)  
 
 # 摘要
 设计者对Kafka的描述：  
