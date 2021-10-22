@@ -7,7 +7,7 @@ permalink: /kafka_02/design/
 # 指南
 上一篇: [重识Kafka_01:背景](https://spikeryang.github.io/kafka_01/background/)  
 本篇的内容对应论文的3.架构设计
-
+下一篇: [重识Kafka_03:总结](https://spikeryang.github.io/kafka_03/conclusion/) 
 
 # 架构 & 设计
 ## Kafka基础概念
